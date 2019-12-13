@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+
 service NotifyService {
     rpc NotifyCWEmailChange (NotifyCWEmailChangeRequest) returns (Empty) {}
     rpc NotifyCWPasswordChange (NotifyCWPasswordChangeRequest) returns (Empty) {}
@@ -91,7 +92,6 @@ message NotifyHWSentRequest {
     Currency currency = 3;
     string amount = 4;
     string txid = 5;
-    string to = 6;
 }
 
 message NotifyHWReceiverRequest {
@@ -100,7 +100,6 @@ message NotifyHWReceiverRequest {
     Currency currency = 3;
     string amount = 4;
     string txid = 5;
-    string from = 6;
 }
 
 message NotifyHWContractCallRequest {
@@ -109,7 +108,6 @@ message NotifyHWContractCallRequest {
     Currency currency = 3;
     string contract = 4;
     string txid = 5;
-    string method = 6;
 }
 
 message NotifyFromAdminRequest {
