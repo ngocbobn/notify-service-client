@@ -1,17 +1,16 @@
-const grpc = require('grpc')
-const protoLoader = require('@grpc/proto-loader')
-const config = require('./config')
+const client = require('./client')
 
-var PROTO_PATH = __dirname + '/proto/notify_service.proto';
-var packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true
-    });
-var service = grpc.loadPackageDefinition(packageDefinition);
-
-module.exports = new service.NotifyService(config.notifyService, grpc.credentials.createInsecure())
+module.exports = async ({ method, params }) => {
+    return new Promise((resolve, reject) => {
+        try {
+            client.Call({ method, params: JSON.stringify(params) }, (err, result) => {
+                if (err) {
+                    return reject({ message: err.code })
+                }
+                return resolve(result.result)
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}

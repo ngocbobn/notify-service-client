@@ -1,119 +1,15 @@
 syntax = "proto3";
 
 
-service NotifyService {
-    rpc NotifyCWEmailChange (NotifyCWEmailChangeRequest) returns (Empty) {}
-    rpc NotifyCWPasswordChange (NotifyCWPasswordChangeRequest) returns (Empty) {}
-    rpc NotifyCWDeposit (NotifyCWDepositRequest) returns (Empty) {}
-    rpc NotifyCWWithdraw (NotifyCWWithdrawRequest) returns (Empty) {}
-
-    rpc NotifyHWSent (NotifyHWSentRequest) returns (Empty) {}
-    rpc NotifyHWReceived (NotifyHWReceiverRequest) returns (Empty) {}
-    rpc NotifyHWContractCall (NotifyHWContractCallRequest) returns (Empty) {}
-
-    rpc NotifyFromAdmin (NotifyFromAdminRequest) returns (Empty) {}
+service BrickService {
+    rpc Call (Request) returns (Response) {}
 }
 
-enum HWBalanceChange {
-    sent = 0;
-    received = 1;
+message Request {
+  required string method = 1;
+  required string params = 2;
 }
 
-enum Platform {
-    btc = 0;
-    bch = 1;
-    ltc = 2;
-    eth = 3;
-    etc = 4;
-    trx = 5;
-}
-
-enum Language {
-    en = 0;
-    zh = 1;
-}
-
-enum CWDeposit {
-    pending = 0;
-    confirmed = 1;
-}
-
-enum CWWithdraw {
-    requested = 0;
-    approved = 1;
-    rejected = 2;
-}
-
-message Empty {}
-
-message Currency {
-    Platform platform = 1;
-    string coin = 2;
-}
-
-message Device {
-    string token = 1;
-    Language language = 2;
-}
-
-message NotifyCWEmailChangeRequest {
-    string id = 1;
-    repeated Device devices = 2;
-    string email = 3;
-}
-
-message NotifyCWPasswordChangeRequest {
-    string id = 1;
-    repeated Device devices = 2;
-}
-
-message NotifyCWDepositRequest {
-    string id = 1;
-    repeated Device devices = 2;
-    CWDeposit type = 3;
-    Currency currency = 4;
-    string amount = 5;
-    string txid = 6;
-}
-
-message NotifyCWWithdrawRequest {
-    string id = 1;
-    repeated Device devices = 2;
-    CWWithdraw type = 3;
-    Currency currency = 4;
-    string amount = 5;
-    string txid = 6;
-    string receiver = 7;
-}
-
-message NotifyHWSentRequest {
-    string id = 1;
-    repeated Device devices = 2;
-    Currency currency = 3;
-    string amount = 4;
-    string txid = 5;
-}
-
-message NotifyHWReceiverRequest {
-    string id = 1;
-    repeated Device devices = 2;
-    Currency currency = 3;
-    string amount = 4;
-    string txid = 5;
-}
-
-message NotifyHWContractCallRequest {
-    string id = 1;
-    repeated Device devices = 2;
-    Currency currency = 3;
-    string contract = 4;
-    string txid = 5;
-}
-
-message NotifyFromAdminRequest {
-    string id = 1;
-    repeated Device devices = 2;
-    string title = 3;
-    string body = 4;
-    string data = 5;
+message Response {
+  string result = 1;
 }
